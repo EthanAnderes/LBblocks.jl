@@ -3,6 +3,9 @@ uuid = "2f8bf423-5b2a-468b-be78-e7a73b316aa7"
 authors = ["Ethan Anderes"]
 version = "0.1.0"
 
+[deps]
+MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+
 [compat]
 julia = "1.3"
 
