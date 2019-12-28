@@ -67,9 +67,6 @@ julia> w,z = @lblock let a=1, b=3
            return sin(y), y
        end
 ERROR: UndefVarError: d not defined
-Stacktrace:
- [1] #1###402(::Int64, ::Int64) at ./none:0
- [2] top-level scope at /Users/ethananderes/Dropbox/LBblocks/src/LBblocks.jl:60
 
 julia> w,z = @lblock let a=1, b=3, d
            y = a+b+c+d
