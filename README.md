@@ -10,7 +10,7 @@ This is an experimental package for better management of script code blocks whic
 
 ## `@bblock` overview
 
-`@bblock` work by wrapping a `begin ... end` block of code into an anonymous function which is subsequently evaluated. 
+`@bblock` works by wrapping a `begin ... end` block of code into an anonymous function which is subsequently evaluated. 
 
 The advantages I'm hoping for with the use of `@bblock` is as follows:
 1. one can utilize speed advantages offered by anonymous functions
@@ -54,41 +54,38 @@ The advantages, beyond those for `@bblock`, I'm hoping for with the use of `@lbl
 
 Here are a couple example of the use of `@lblock`. Note: the first use of `@lblock` in the example below is intentionally supposed to give an error to the user.
 ```
-using LBblocks
-const c = 1
-d = 1.2
-```
+julia> using LBblocks
 
-```
-julia> w,z = @lblock let a=1,b=3
+julia> const c = 1
+1
+
+julia> d = 1.2
+1.2
+
+julia> w,z = @lblock let a=1, b=3
            y = a+b+c+d
            return sin(y), y
        end
 ERROR: UndefVarError: d not defined
 Stacktrace:
- [1] #5###405(::Int64, ::Int64) at ./none:0
+ [1] #1###402(::Int64, ::Int64) at ./none:0
  [2] top-level scope at /Users/ethananderes/Dropbox/LBblocks/src/LBblocks.jl:60
 
-julia> w,z = @lblock let a=1,b=3,d
+julia> w,z = @lblock let a=1, b=3, d
            y = a+b+c+d
            return sin(y), y
        end
 (-0.0830894028174964, 6.2)
 
-julia> w,z = @lblock let a=1,b=3,d=100
+julia> w,z = @lblock let d=d, c=10, b=w, a=1
            y = a+b+c+d
            return sin(y), y
        end
-(-0.9705352835374847, 105)
+(0.024679550416085317, 3.1169105971825033)
 
-julia> w,z = @lblock let a=1,b=3,d=100
-           y = a+b+c+d
-           return sin(y), y
-       end
-(-0.9705352835374847, 105)
 ```
 
-To illustrate the code transformation taking place one can use `MacroTools.@expand`
+To illustrate the code transformation taking place one can now use `MacroTools.@expand`
 
 ```
 julia> using MacroTools
