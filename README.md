@@ -92,13 +92,11 @@ julia> @expand @lblock let a=a,b=3,d
            return sin(y), y
        end
 quote
-    #= /Users/ethananderes/Dropbox/LBblocks/src/LBblocks.jl:59 =#
     function manatee(a, b, d; )
         local w, z
         y = a + b + c + d
         return (sin(y), y)
     end
-    #= /Users/ethananderes/Dropbox/LBblocks/src/LBblocks.jl:60 =#
     manatee(a, 3, d)
 end
 ```
