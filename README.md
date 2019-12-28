@@ -19,7 +19,7 @@ The advantages I'm hoping for with the use of `@bblock` is as follows:
 4. make sequences of code blocks easier to read by clearly specifying which variables are temporary for a particular code block vrs which variables are used for subsequent code blocks. 
 
 Here is an example of the use of `@bblocks`. 
-```
+```julia
 a = true
 b = 1.0
 c, d = @bblock begin
@@ -31,7 +31,7 @@ c, d = @bblock begin
 end
 ```
 Which gets expanded to something like
-```
+```julia
 anon_function = function ()
     if a
         return 1,2
@@ -53,7 +53,7 @@ The advantages, beyond those for `@bblock`, I'm hoping for with the use of `@lbl
 3. smooth the transition from prototyping code in the REPL to functions in a Module. 
 
 Here are a couple example of the use of `@lblock`. Note: the first use of `@lblock` in the example below is intentionally supposed to give an error to the user.
-```
+```julia
 julia> using LBblocks
 
 julia> const c = 1
@@ -87,7 +87,7 @@ julia> w,z = @lblock let d=d, c=10, b=w, a=1
 
 To illustrate the code transformation taking place one can now use `MacroTools.@expand`
 
-```
+```julia
 julia> using MacroTools
 
 julia> @expand @lblock let a=a,b=3,d
