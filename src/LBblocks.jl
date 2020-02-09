@@ -116,10 +116,10 @@ macro lblock(ex)
     )
     
     # the return expression defines the function and then calls it on the let args
-    return quote
+    return MacroTools.rmlines(quote
         $fnm_ex
         $fnm($(map(esc,rhs_args)...))
-    end
+    end)
 
 end
 
@@ -179,10 +179,10 @@ macro sblock(ex)
     )
     
     # the return expression defines the function and then calls it on the let args
-    return quote
+    return MacroTools.rmlines(quote
         $fnm_ex
         $fnm($(map(esc,rhs_args)...))
-    end
+    end)
 
 end
 
