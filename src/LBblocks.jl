@@ -49,6 +49,12 @@ lhs(ex::Expr)   = MacroTools.isexpr(ex, :(=)) ? ex.args[1] : nothing
 rhs(ex::Symbol) = ex
 rhs(ex::Expr)   = MacroTools.isexpr(ex, :(=)) ? ex.args[end] : nothing
 
+isassigned_vars(ex::Symbol)::Bool = false
+isassigned_vars(ex::Expr)::Bool = MacroTools.isexpr(ex, :(=)) ? true : false
+# ... which can be used as follows
+# let_assigned_expr    = filter(isassigned_vars, [:(a=2), :y, :(b=c), :x])
+# let_isolated_symbols = filter(!isassigned_vars, [:(a=2), :y, :(b=c), :x])
+
 
 """
 ```
