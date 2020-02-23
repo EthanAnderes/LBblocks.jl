@@ -8,8 +8,11 @@ using Test
 	anon1  = ()->rand()
 	decl() = rand()
 
-	const c     = 1
-	const anon2 = ()->rand()
+	# const c     = 1
+	# const anon2 = ()->rand()
+	c     = 1
+	anon2 = ()->rand()
+
 
 	w,z = @lblock let a=1, b=3, d, anon1
 	    y = a+b+c+d+anon1()+anon2()+decl()
