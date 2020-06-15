@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.com/EthanAnderes/LBblocks.jl.svg?branch=master)](https://travis-ci.com/EthanAnderes/LBblocks.jl)
 
 
-This is an experimental package for better management of script code blocks which are evaluate in global scope. This is done by two macros `@lblock` or `@bblock` that transform a `let` or `begin` block into a function which is subsequently evaluated. In the `let` block case non-constant globals are declared to be local, resulting in an error if the code references non-constant globals which do not appear  in the `let` argument list.
+This is an experimental package for better management of script code blocks which are evaluate in global scope. This is done by three macros `@bblock`, `@lblock` and `@sblock` that transform a `let` or `begin` block into a function which is subsequently evaluated. In the `let` block case non-constant globals are declared to be local, resulting in an error if the code references non-constant globals which do not appear  in the `let` argument list.
 
 
 ## `@bblock` overview
@@ -45,7 +45,7 @@ c, d = anon_function()
 
 ## `@lblock` overview
 
-`@lblock` works by wrapping a `let` block of code into a generic function, which is subsequently evaluated on the variable list specified by the `let` block. In addition `@lblock` has more strict rules for referencing global variables within code code blocks, only allowing global variables declared as `const` to be used in the code block (which are not in the `let` argument list).
+`@lblock` (_l_ for _let_ block) works by wrapping a `let` block of code into a generic function, which is subsequently evaluated on the variable list specified by the `let` block. In addition `@lblock` has more strict rules for referencing global variables within code code blocks, only allowing global variables declared as `const` to be used in the code block (which are not in the `let` argument list).
 
 The advantages, beyond those for `@bblock`, I'm hoping for with the use of `@lblock` is as follows:
 1. type inference and jit compilation so heavy one-off calculations are fast.
@@ -102,3 +102,7 @@ end
 ```
 
 
+
+## `@sblock` overview
+
+`@sblock` (_s_ for _strict_ block) works just like `@lblock` but is more strict in that one needs to  explicitly pass _all_ variables as let arguments with the exception of modules and explicitly declared (non-anon) functions. 
