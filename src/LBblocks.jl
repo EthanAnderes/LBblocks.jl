@@ -4,10 +4,11 @@ import MacroTools
 export @bblock, @lblock, @sblock
 
 
-# check if m.s is a declared function (necessarily const)
-function isdeclaredfunction(m::Module, s::Symbol)
+# check if m.s is a declared function or type (necessarily const)
+function isdeclaredfunction_or_type(m::Module, s::Symbol)
   m_s = getfield(m, s)
-  return isconst(m,s) && isa(m_s,Function) && nameof(m_s)==s 
+  isstruct_in_main = isa(m_s,Type) && isstructtype(m_s)
+  return isconst(m,s) && (isa(m_s,Function) || isstruct_in_main) && nameof(m_s)==s 
 end
 
 # check if m.s is a module function (necessarily const)
@@ -19,8 +20,8 @@ end
 # Note: we partition 
 # names(m::Module) = Ω₁ ∪ Ω₂ ∪ Ω₃ where
 # Ω₁ = {non const} 
-# Ω₂ = {consts which are delcared functions or Modules}
-# Ω₃ = {consts which are *not* delcared functions or Modules}
+# Ω₂ = {consts which are delcared functions or types or Modules}
+# Ω₃ = {consts which are *not* delcared functions or types or Modules}
 
 #  Ω₁ = {non const} 
 function non_const_vals(m::Module)
@@ -32,14 +33,14 @@ function const_vals(m::Module)
     return [s for s in names(m) if isconst(m,s)]
 end
 
-# Ω₂  = {consts which are delcared functions or Modules}
+# Ω₂  = {consts which are delcared functions or types or Modules}
 function const_delcaredfun_or_mod(m::Module)
-    return [s for s in const_vals(m) if (ismod(m,s) || isdeclaredfunction(m,s))] 
+    return [s for s in const_vals(m) if (ismod(m,s) || isdeclaredfunction_or_type(m,s))] 
 end
 
-# Ω₃ = {consts which are *not* delcared functions or Modules}
+# Ω₃ = {consts which are *not* delcared functions or types or Modules}
 function const_other(m::Module)
-    return [s for s in const_vals(m) if !(ismod(m,s) || isdeclaredfunction(m,s))] 
+    return [s for s in const_vals(m) if !(ismod(m,s) || isdeclaredfunction_or_type(m,s))] 
 end
 
 
